@@ -6,7 +6,7 @@ COMSATS University Islamabad, Vehari Campus.
 
 | | |
 |---|---|
-| **Student name** | _your name_ |
+| **Student name** | Atika Amjad |
 | **Registration number** | _your reg. no._ |
 | **GitHub repository** | _https://github.com/…_ |
 | **Live URL (Vercel)** | _https://….vercel.app_ |
