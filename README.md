@@ -9,7 +9,7 @@ COMSATS University Islamabad, Vehari Campus.
 | **Student name** | Atika Amjad |
 | **Registration number** | _your reg. no._ |
 | **GitHub repository** | https://github.com/atika-amjad/vspark |
-| **Live URL (Vercel)** | _https://….vercel.app_ |
+| **Live URL (Vercel)** | https://vspark-nu.vercel.app |
 | **Google Drive folder** | _link / location_ |
 
 ---
@@ -186,5 +186,5 @@ Verified locally: production build, TypeScript, ESLint, page rendering for all 1
 (`npm test`), the seed and make-admin scripts, and the database policies — sign-up, own-registration insert,
 profile insert, blocked self-approval, blocked self-promotion, cross-user isolation, admin read-all, admin
 approval and admin content writes.
-**Not tested in the build environment:** live Vercel deployment, and the Hipo Labs API from Vercel's network.
+**Also verified on the live Vercel deployment:** all pages, the external API route, the token-protected proof route, client-side Supabase reads, and admin login with role detection.
 Run through the checklist in sections 5/6 on your configured project and capture the screenshots.

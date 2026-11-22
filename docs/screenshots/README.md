@@ -27,6 +27,7 @@ Captured from the running app (production build, `http://localhost:3000`) agains
 | `19-api-error-state.png` | External API failure state with the retry / manual fallback |
 | `23-protected-route.png` | `/dashboard` while logged out redirects to `/login?next=…` |
 | `24-logout.png` | After logging out |
+| `22-vercel-deployment.png` | The live site at https://vspark-nu.vercel.app |
 
 ## Still to capture (needs your accounts)
 
@@ -35,6 +36,6 @@ Captured from the running app (production build, `http://localhost:3000`) agains
 | `18-cancel-registration.png` | The browser's native confirm dialog does not appear in automated screenshots — take it manually |
 | `20-supabase-tables.png` | Supabase Table Editor (requires your Supabase dashboard login) |
 | `21-supabase-bucket.png` | The `payment-proofs` bucket with an uploaded file (Supabase dashboard) |
-| `22-vercel-deployment.png` | After the Vercel deployment |
+
 
 Keep these filenames so the links in the main README keep working.
