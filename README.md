@@ -8,7 +8,7 @@ COMSATS University Islamabad, Vehari Campus.
 |---|---|
 | **Student name** | Atika Amjad |
 | **Registration number** | _your reg. no._ |
-| **GitHub repository** | _https://github.com/…_ |
+| **GitHub repository** | https://github.com/atika-amjad/vspark |
 | **Live URL (Vercel)** | _https://….vercel.app_ |
 | **Google Drive folder** | _link / location_ |
 
