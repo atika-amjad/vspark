@@ -8,6 +8,8 @@ export interface QueryOptions {
   orderBy?: string;
   ascending?: boolean;
   limit?: number;
+  /** When false the query is skipped entirely (useful for tables a signed-out visitor cannot read). */
+  enabled?: boolean;
 }
 
 /** Fetches rows from a table. Errors are thrown with the Postgres message. */

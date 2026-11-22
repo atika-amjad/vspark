@@ -31,8 +31,10 @@ export default function UniversityPicker({ value, onChange, error, id = "univers
       setList(items);
       setStatus(items.length ? "ready" : "empty");
     } catch (e) {
+      const raw = e instanceof Error ? e.message : "";
+      const networkFailure = !raw || /failed to fetch|networkerror|load failed|fetch failed/i.test(raw);
       setList([]);
-      setMessage(e instanceof Error ? e.message : "Could not reach the universities service.");
+      setMessage(networkFailure ? "the service is unreachable" : raw);
       setStatus("error");
     }
   }, []);

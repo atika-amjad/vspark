@@ -19,10 +19,15 @@ export function useCollection<T>(table: string, opts: QueryOptions = {}) {
   // Serialised so the effect does not re-run on every render for the same filters.
   const filterKey = JSON.stringify(opts.eq ?? []);
   const orderKey = `${opts.orderBy ?? ""}:${opts.ascending ?? true}:${opts.limit ?? 0}`;
+  const enabled = opts.enabled !== false;
 
   useEffect(() => {
     let cancelled = false;
     async function run() {
+      if (!enabled) {
+        setState({ data: [], loading: false, error: null });
+        return;
+      }
       if (!isSupabaseConfigured) {
         setState({ data: [], loading: false, error: SUPABASE_NOT_CONFIGURED_MESSAGE });
         return;
@@ -43,7 +48,7 @@ export function useCollection<T>(table: string, opts: QueryOptions = {}) {
       cancelled = true;
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [table, tick, filterKey, orderKey]);
+  }, [table, tick, filterKey, orderKey, enabled]);
 
   // Unique per hook instance: two components can watch the same table+filter,
   // and Supabase returns the existing channel for a duplicate topic name,
@@ -53,7 +58,7 @@ export function useCollection<T>(table: string, opts: QueryOptions = {}) {
   // Live updates: any insert/update/delete on the table re-runs the fetch,
   // so the admin and participant views stay in sync without a manual refresh.
   useEffect(() => {
-    if (!isSupabaseConfigured) return;
+    if (!isSupabaseConfigured || !enabled) return;
     const supabase = getSupabase();
     const channel = supabase
       .channel(`realtime:${table}:${channelId.current}`)
@@ -62,7 +67,7 @@ export function useCollection<T>(table: string, opts: QueryOptions = {}) {
     return () => {
       void supabase.removeChannel(channel);
     };
-  }, [table, reload]);
+  }, [table, reload, enabled]);
 
   return { ...state, reload };
 }

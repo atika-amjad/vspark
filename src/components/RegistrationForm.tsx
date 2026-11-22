@@ -83,8 +83,11 @@ export default function RegistrationForm({ mode, initial, defaultCompetitionId }
   const { data: existingMembers } = useCollection<TeamMember>("team_members", {
     eq: [["registrationId", initial?.id ?? "00000000-0000-0000-0000-000000000000"]],
   });
-  // Registered users the participant can add.
-  const { data: directory, loading: directoryLoading } = useCollection<DirectoryUser>("member_directory");
+  // Registered users the participant can add. The view is readable only by
+  // signed-in users, so during self sign-up there is no session yet to read it.
+  const { data: directory, loading: directoryLoading } = useCollection<DirectoryUser>("member_directory", {
+    enabled: mode !== "create-account",
+  });
 
   useEffect(() => {
     if (mode !== "edit" || membersLoaded) return;
@@ -398,7 +401,14 @@ export default function RegistrationForm({ mode, initial, defaultCompetitionId }
           {err("competitionIds") && <p className="field-error">{err("competitionIds")}</p>}
         </section>
 
-        {maxTeam > 1 && (
+        {maxTeam > 1 && mode === "create-account" && (
+          <p className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-xs text-ink-500">
+            This competition allows up to {maxTeam} members. Teammates can be added right after your account is
+            created — open <strong>Dashboard → Edit</strong> on this registration.
+          </p>
+        )}
+
+        {maxTeam > 1 && mode !== "create-account" && (
           <section className="card p-6 sm:p-8">
             <h2 className="flex items-center gap-2 text-base font-bold">
               <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-brand-100 text-brand-600"><Users className="h-4 w-4" /></span>

@@ -30,7 +30,13 @@ export default function UniversitiesPage() {
       setItems(body.universities ?? []);
       setState("ready");
     } catch (e) {
-      setMessage(e instanceof Error ? e.message : "The universities service could not be reached.");
+      const raw = e instanceof Error ? e.message : "";
+      const networkFailure = !raw || /failed to fetch|networkerror|load failed|fetch failed/i.test(raw);
+      setMessage(
+        networkFailure
+          ? "Could not reach the universities service. Check your connection and try again — or enter your university manually on the registration form."
+          : raw,
+      );
       setState("error");
     }
   }, []);

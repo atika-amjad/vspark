@@ -8,6 +8,12 @@ export const runtime = "nodejs";
 const UPSTREAM = "http://universities.hipolabs.com/search";
 const SAFE_QUERY = /^[\p{L}\p{N} .,'()&-]{0,80}$/u;
 
+// Small in-memory cache instead of Next's fetch cache: a timed-out upstream
+// request used to log "Failed to set fetch cache" because Next tried to store it.
+const CACHE_TTL_MS = 60 * 60 * 1000;
+const CACHE_MAX = 50;
+const cache = new Map<string, { at: number; data: University[] }>();
+
 interface HipoRecord {
   name?: string;
   country?: string;
@@ -33,8 +39,14 @@ export async function GET(request: Request) {
   if (country) url.searchParams.set("country", country);
   if (name) url.searchParams.set("name", name);
 
+  const cacheKey = url.toString();
+  const cached = cache.get(cacheKey);
+  if (cached && Date.now() - cached.at < CACHE_TTL_MS) {
+    return NextResponse.json({ universities: cached.data, source: "universities.hipolabs.com", cached: true });
+  }
+
   try {
-    const res = await fetch(url, { signal: AbortSignal.timeout(10_000), next: { revalidate: 3600 } });
+    const res = await fetch(url, { signal: AbortSignal.timeout(10_000), cache: "no-store" });
     if (!res.ok) {
       return NextResponse.json({ error: `The universities service responded with status ${res.status}.` }, { status: 502 });
     }
@@ -54,6 +66,13 @@ export async function GET(request: Request) {
       }))
       .sort((a, b) => a.name.localeCompare(b.name))
       .slice(0, 300);
+
+    cache.set(cacheKey, { at: Date.now(), data: universities });
+    if (cache.size > CACHE_MAX) {
+      const oldest = cache.keys().next().value;
+      if (oldest) cache.delete(oldest);
+    }
+
     return NextResponse.json({ universities, source: "universities.hipolabs.com" });
   } catch (err) {
     const timedOut = err instanceof Error && (err.name === "TimeoutError" || err.name === "AbortError");
