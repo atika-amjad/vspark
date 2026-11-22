@@ -170,7 +170,13 @@ running app against the live Supabase database:
 ![Register with live university API](docs/screenshots/03-register.png)
 ![Competitions from Supabase](docs/screenshots/04-competitions.png)
 ![Participant dashboard](docs/screenshots/09-dashboard.png)
-![Admin dashboard](docs/screenshots/10-admin.png)
+![Admin dashboard](docs/screenshots/10-admin-dashboard.png)
+![Mobile layout](docs/screenshots/11-mobile.png)
+![Validation errors](docs/screenshots/12-register-validation.png)
+![Payment proof upload](docs/screenshots/13-upload.png)
+![Pending approval](docs/screenshots/14-dashboard-pending.png)
+![Signed URL proof retrieval](docs/screenshots/16-admin-proof.png)
+![External API error state](docs/screenshots/19-api-error-state.png)
 
 
 ## 10. Testing status

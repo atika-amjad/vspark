@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { listRows, type QueryOptions } from "./db";
 import { SUPABASE_NOT_CONFIGURED_MESSAGE, getSupabase, isSupabaseConfigured } from "./supabase";
 
@@ -45,19 +45,24 @@ export function useCollection<T>(table: string, opts: QueryOptions = {}) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [table, tick, filterKey, orderKey]);
 
+  // Unique per hook instance: two components can watch the same table+filter,
+  // and Supabase returns the existing channel for a duplicate topic name,
+  // which throws when .on() is called after subscribe().
+  const channelId = useRef(Math.random().toString(36).slice(2));
+
   // Live updates: any insert/update/delete on the table re-runs the fetch,
   // so the admin and participant views stay in sync without a manual refresh.
   useEffect(() => {
     if (!isSupabaseConfigured) return;
     const supabase = getSupabase();
     const channel = supabase
-      .channel(`realtime:${table}:${filterKey}`)
+      .channel(`realtime:${table}:${channelId.current}`)
       .on("postgres_changes", { event: "*", schema: "public", table }, () => reload())
       .subscribe();
     return () => {
       void supabase.removeChannel(channel);
     };
-  }, [table, filterKey, reload]);
+  }, [table, reload]);
 
   return { ...state, reload };
 }
