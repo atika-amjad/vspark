@@ -6,8 +6,8 @@ COMSATS University Islamabad, Vehari Campus.
 
 | | |
 |---|---|
-| **Student name** | Atika Amjad |
-| **Registration number** | _your reg. no._ |
+| **Group members** | Atika Amjad (SP24-BSE-035) · Ayesha Irum (SP24-BSE-039) |
+| **Registration numbers** | SP24-BSE-035 · SP24-BSE-039 |
 | **GitHub repository** | https://github.com/atika-amjad/vspark |
 | **Live URL (Vercel)** | https://vspark-nu.vercel.app |
 | **Google Drive folder** | _link / location_ |
@@ -177,6 +177,9 @@ running app against the live Supabase database:
 ![Pending approval](docs/screenshots/14-dashboard-pending.png)
 ![Signed URL proof retrieval](docs/screenshots/16-admin-proof.png)
 ![External API error state](docs/screenshots/19-api-error-state.png)
+![Supabase Table Editor](docs/screenshots/20-supabase-tables.png)
+![Supabase Storage bucket](docs/screenshots/21-supabase-bucket.png)
+![Live Vercel deployment](docs/screenshots/22-vercel-deployment.png)
 
 
 ## 10. Testing status
